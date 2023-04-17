@@ -23,7 +23,9 @@ OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxx
 Here's an example of initializing the library with the API key loaded from an environment variable and creating a completion using a plugin:
 
 ```javascript
-import { Configuration, OpenAIPluginApi, Plugins } from "../index.js";
+import { Configuration, OpenAIPluginApi, Plugins } from "openai-plugin";
+import dotenv from "dotenv";
+dotenv.config();
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -34,19 +36,17 @@ const openai = new OpenAIPluginApi(configuration);
     var plugins = new Plugins([
       {
         name: 'Calculator', 
-        url: 'https://chat-calculator-plugin.supportmirage.repl.co/.well-known/ai-plugin.json'
+        manifest: 'https://chat-calculator-plugin.supportmirage.repl.co/.well-known/ai-plugin.json'
       }
     ])
 
-    await plugins.config()
-    
     var completion = await openai.createChatCompletionPlugin({
       model: "gpt-3.5-turbo",
       messages: [{role: "user", content: "How much is 3849 x 8394 ?"}],
       plugins 
     });
     
-    console.log(completion.responses);
+    console.log(completion.completions.map(completion => completion.message));
     
 })();
 ```
