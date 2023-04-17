@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Dev: debug server-side",
+        "type": "node-terminal",
+        "request": "launch",
+        "command": "node examples/calculator/calculator.js"
+      },
+  
+    ]
+  }
+  

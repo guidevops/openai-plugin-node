@@ -1,0 +1,5 @@
+.env
+.api
+node_modules
+
+todo.list
