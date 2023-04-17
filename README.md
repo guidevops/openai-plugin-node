@@ -54,13 +54,13 @@ const openai = new OpenAIPluginApi(configuration);
 Check out the [full API documentation](https://platform.openai.com/docs/api-reference?lang=node.js) for examples of all the available functions.
 
 ## TODO
-support to auth
-support to all openapi versions
-support to predefined variables(like $userId)
-debug mode
-token management
-Fix method in sdk generation
-make tamplates and handles more modular
+- support to auth
+- support to all openapi versions
+- support to predefined variables(like $userId)
+- debug mode
+- token management
+- Fix method in sdk generation
+- make tamplates and handles more modular
 
 
 ## Thanks
