@@ -45,15 +45,22 @@ var template_default = {
 
   ]
 } 
+var extractPayload = function(content){
+  var action = /Method: (.*)\n/.exec(content)[1].trim()
+  var plugin = action.split('.')[0]
+  var method = action.split('.')[1]
+  var args = JSON.parse(content.split(action)[1].trim())
 
-var handlePluginCall = async function (message, plugins){
-          var content = message.content
-          
-          var action = /Method: (.*)\n/.exec(content)[1].trim()
-          var plugin = action.split('.')[0]
-          var method = action.split('.')[1]
-          var args = JSON.parse(content.split(action)[1].trim())
-          
+  return {
+    action,
+    plugin,
+    method,
+    args
+  }
+}
+
+var handlePluginCall = async function (payload, plugins){
+          var { plugin, method, args } = payload
           if(plugins[plugin]){
             var pluginAction = plugins[plugin].sdk[method]
 
@@ -90,10 +97,12 @@ function OpenAIPluginApi(configuration) {
     var { plugins } = options
 
     delete options.plugins
-    var instructions = template_default.instructions + '\n\n' + references(plugins) + '\n\n'+ template_default.agent_scrachpad
-    instructions = [{role: "system", content: instructions}]
-    //var agent_scrachpad = [{role: "system", content: template_default.agent_scrachpad}]
-    messages = [...instructions, ...template_default.examples, ...messages]
+    if(plugins){
+      var instructions = template_default.instructions + '\n\n' + references(plugins) + '\n\n'+ template_default.agent_scrachpad
+      instructions = [{role: "system", content: instructions}]
+      //var agent_scrachpad = [{role: "system", content: template_default.agent_scrachpad}]
+      messages = [...instructions, ...template_default.examples, ...messages]
+    }
     
     
     var responses = []
@@ -102,8 +111,10 @@ function OpenAIPluginApi(configuration) {
       var completion = await this.createChatCompletion(options);
       messages.push(completion.data.choices[0].message)
 
-      //console.log(completion.data.choices[0].message.content)
+
       if(completion.data.choices[0].message.content.toUpperCase().startsWith('Use Plugin? Yes'.toUpperCase())){
+
+        var payload = extractPayload(completion.data.choices[0].message)
 
         responses.push({
           usage: completion.data.usage,
@@ -113,16 +124,15 @@ function OpenAIPluginApi(configuration) {
 
         var plugin_response = {
           role: "user", 
-          content: 'Plugin response:' + JSON.stringify(await handlePluginCall(completion.data.choices[0].message, plugins)) 
+          content: 'Plugin response:' + JSON.stringify(await handlePluginCall(payload, plugins)) 
         }
 
         messages.push(plugin_response)
-        //console.log(plugin_response)
 
         responses.push({
           usage: {},
           type: 'plugin_response',
-          //add more details here about plugin execution and response
+          payload,
           message : plugin_response
           })
 
