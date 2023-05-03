@@ -4,7 +4,14 @@
 
 A simple modification in the official OpenAI module that gives the possibility to use plugins that follow the OpenAI standards together with the API.
 
-**Important note: this library is meant for server-side usage only, as using it in client-side browser code will expose your secret API key. [See here](https://platform.openai.com/docs/api-reference/authentication) for more details.** 🔒
+🔒 **Important note**: this library is meant for server-side usage only, as using it in client-side browser code will expose your secret API key. [See here](https://platform.openai.com/docs/api-reference/authentication) for more details.
+
+## 🗺️ Table of Contents
+
+- [Installation](#installation-💻)
+- [Usage](#usage-📖)
+- [TODO](#todo-📝)
+- [Thanks](#thanks-🙏)
 
 ## Installation 💻
 
@@ -17,9 +24,11 @@ npm install openai-plugin
 The library needs to be configured with your account's secret key, which is available on the [website](https://platform.openai.com/account/api-keys). We recommend setting as an environment variable.
 
 Create a `.env` file in the root of your project and add your secret key:
+
 ```
 OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxx
 ```
+
 Here's an example of initializing the library with the API key loaded from an environment variable and creating a completion using a plugin:
 
 ```javascript
@@ -51,16 +60,17 @@ console.log(completion.completions.map(completion => completion.message));
 })();
 ```
 
-Check out the [full API documentation](https://platform.openai.com/docs/api-reference?lang=node.js) for examples of all the available functions. 📚
+📚 Check out the [full API documentation](https://platform.openai.com/docs/api-reference?lang=node.js) for examples of all the available functions.
 
 ## TODO 📝
-- support to auth
-- support to all openapi versions
-- support to predefined variables(like $userId)
-- debug mode
-- token management
-- Fix method in sdk generation
-- make tamplates and handles more modular
+
+- Support for auth
+- Support for all OpenAPI versions
+- Support for predefined variables (like $userId)
+- Debug mode
+- Token management
+- Fix method in SDK generation
+- Make templates and handles more modular
 
 ## Thanks 🙏
 
