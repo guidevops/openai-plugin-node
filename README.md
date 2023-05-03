@@ -61,17 +61,7 @@ console.log(completion.completions.map(completion => completion.message));
 ```
 
 📚 Check out the [full API documentation](https://platform.openai.com/docs/api-reference?lang=node.js) for examples of all the available functions.
-
 ## TODO 📝
-
-- Support for auth
-- Support for all OpenAPI versions
-- Support for predefined variables (like $userId)
-- Debug mode
-- Token management
-- Fix method in SDK generation
-- Make templates and handles more modular
-
 ## Thanks 🙏
 
 Thank you to [ceifa](https://github.com/ceifa) for creating and maintaining the original unofficial `openai` npm package before we released this official library! ceifa's original package has been renamed to [gpt-x](https://www.npmjs.com/package/gpt-x).
